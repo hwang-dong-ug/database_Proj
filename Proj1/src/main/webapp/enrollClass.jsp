@@ -10,10 +10,6 @@
 <%@ page import="user.ClassLookUp" %>
 <%@ page import="user.UserDAO" %>
 <%@ page import="java.util.ArrayList" %>
-<jsp:useBean id="class_lookUp" class="user.ClassLookUp" scope="page" />
-<jsp:setProperty name="class_lookUp" property="class_id" />
-<jsp:setProperty name="class_lookUp" property="course_id" />
-<jsp:setProperty name="class_lookUp" property="class_name"/>
 
 <%--신청버튼, 수업번호, 학수번호, 교과목명, 교강사이름, 수업시간, 신청인원/수강정원, 강의실(건물+호수) 표시
 --%>
@@ -26,9 +22,9 @@
 </head>
 <body>
     <div class="col-lg-2" style="padding-top: 5px;">
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='main.jsp'">메인으로 이동</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='userMain.jsp'">메인으로 이동</button>
     </div>
-    <form action="showClass.jsp" method="post" accept-charset="UTF-8">
+    <form action="enrollClass.jsp" accept-charset="UTF-8">
         <h3 style="test-align: center;" style="padding-top: 20px;">모든 class 정보</h3>
         <input type="text" class="form-control" placeholder="수업번호" name="class_id" maxlength="20">
         <input type="text" class="form-control" placeholder="학수번호" name="course_id" maxlength="20">
@@ -65,15 +61,29 @@
                 <tbody>
 
                 <%
+                    int class_id=0;
+                    String course_id=null;
+                    String class_name=null;
+                    request.setCharacterEncoding("UTF-8");
+                    if(request.getParameter("class_id") != null ) {
+                        if (request.getParameter("class_id").equals("")) class_id=0;
+                        else class_id = Integer.parseInt(request.getParameter("class_id"));
+                    }
+                    if(request.getParameter("course_id") != null){
+                        if(request.getParameter("course_id").equals("")) course_id=null;
+                        else course_id = request.getParameter("course_id");
+                    }
+                    if(request.getParameter("class_name") != null){
+                        if(request.getParameter("class_name").equals("")) class_name=null;
+                        else class_name = request.getParameter("class_name");
+                    }
 
-//                    System.out.println(request.getParameter("class_name"));   // test 해보기 (오류 해결)!!!!!!!!1
-
-                    int class_id = class_lookUp.getClass_id();
-                    String course_id= class_lookUp.getCourse_id();
-                    String class_name= class_lookUp.getClass_name();
 
                     UserDAO userDAO = new UserDAO();
                     ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name);
+
+                    System.out.println(request.getParameter("class_name"));   // test 해보기 (오류 해결)!!!!!!!!1
+
                     for(int i = 0; i < list.size(); i++) {
                 %>
 
@@ -102,7 +112,7 @@
                         <table>
                             <tr>
                             <div class="col-lg-1" style="padding-top: 5px;">
-                                <input type="submit" value="등록" class="btn btn-primary form-control">
+                                <input type="submit" value="신청" class="btn btn-primary form-control">
                             </div>
                             </tr>
                         </table>

@@ -10,10 +10,6 @@
 <%@ page import="user.ClassLookUp" %>
 <%@ page import="user.UserDAO" %>
 <%@ page import="java.util.ArrayList" %>
-<jsp:useBean id="class_lookUp" class="user.ClassLookUp" scope="page" />
-<jsp:setProperty name="class_lookUp" property="class_id" />
-<jsp:setProperty name="class_lookUp" property="course_id" />
-<jsp:setProperty name="class_lookUp" property="class_name"/>
 
 <!DOCTYPE html>
 <html>
@@ -24,7 +20,7 @@
 </head>
 <body>
 <div class="col-lg-2" style="padding-top: 5px;">
-    <button type="button" class="btn btn-primary form-control" onClick="location.href='main.jsp'">메인으로 이동</button>
+    <button type="button" class="btn btn-primary form-control" onClick="location.href='userMain.jsp'">메인으로 이동</button>
 </div>
 
 <div class="container">
@@ -53,19 +49,13 @@
             <tbody>
 
             <%
-
-
-                int class_id = class_lookUp.getClass_id();
-                String course_id= class_lookUp.getCourse_id();
-                String class_name= class_lookUp.getClass_name();
-
                 UserDAO userDAO = new UserDAO();
-                ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name);
+                ArrayList<ClassLookUp> list = userDAO.showMyClass();
                 for(int i = 0; i < list.size(); i++) {
             %>
 
             <tr>
-                <form action="enrollClass" method="post">
+                <form action="ChangeEnroll" method="post">
                     <td><%= (i + 1)%></td>
                     <td><%= list.get(i).getClass_id()%></td>
                     <td><%= list.get(i).getCourse_id()%></td>
@@ -89,7 +79,7 @@
                     <table>
                         <tr>
                             <div class="col-lg-1" style="padding-top: 5px;">
-                                <input type="submit" value="등록" class="btn btn-primary form-control">
+                                <input type="submit" value="삭제" class="btn btn-primary form-control">
                             </div>
                         </tr>
                     </table>

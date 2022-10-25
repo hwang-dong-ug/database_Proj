@@ -14,10 +14,13 @@
     <title>나의 정보 변경</title>
 </head>
 <body>
+<div class="col-lg-2" style="padding-top: 5px;">
+    <button type="button" class="btn btn-primary form-control" onClick="location.href='userMain.jsp'">메인으로 이동</button>
+</div>
 <div class="container">
     <div class="col-lg-4">
         <div class="jumbotron" style="padding-top: 20px;">
-            <form method="post" action="change_my">
+            <form method="post" action="ChangeMy">
                 <%--                위에 action 변경--%>
                 <h3 style="test-align: center;">나의 정보 변경</h3>
                 <table>
@@ -59,7 +62,7 @@
                 </table>
                 <input type="submit" class="btn btn-primary form-control" value="변경">
             </form>
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='main.jsp'">메인으로 이동</button>
+<%--            <button type="button" class="btn btn-primary form-control" onClick="location.href='main.jsp'">메인으로 이동</button>--%>
         </div>
     </div>
 </div>

@@ -55,6 +55,7 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
+  --bs-body-text-align: center;
   --bs-body-color: #212529;
   --bs-body-bg: #fff;
 }
@@ -122,6 +123,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
+
   font-size: calc(1.3rem + 0.6vw);
 }
 @media (min-width: 1200px) {
@@ -11261,6 +11263,7 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
 }
 
 /*# sourceMappingURL=bootstrap.css.map */

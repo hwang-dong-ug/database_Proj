@@ -10,9 +10,10 @@
     <title>show all</title>
 </head>
 <body>
-    <h3 style="test-align: center;">모든 사용자 정보</h3>
     <div class="container">
+        <h3 style="test-align: center;">모든 사용자 정보</h3>
         <div class="row">
+<%--            <input type="text" value="입력" name="input" >--%>
             <table class="table" width ="750" style="text-align: center; border: 1px solid #dddddd">
                 <thead>
                 <tr>

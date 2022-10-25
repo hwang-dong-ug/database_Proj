@@ -1,6 +1,5 @@
 package user;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +21,10 @@ public class EnrollClass extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String[] class_id_arr = request.getParameterValues("class_id");
-        if(new UserDAO().enroll(class_id_arr)){
-            UserDAO.alertAndGo(response,"등록 성공","showClass.jsp");
+        if(new UserDAO().enrollClass(class_id_arr)){
+            UserDAO.alertAndGo(response,"신청 성공","enrollClass.jsp");
         }else{
-            UserDAO.alertAndGo(response,"등록 실패","showClass.jsp");
+            UserDAO.alertAndGo(response,"신청 실패","enrollClass.jsp");
         }
     }
 

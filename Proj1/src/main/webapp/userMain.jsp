@@ -16,15 +16,15 @@
 <body>
 <div class="container">
     <div class="col-lg-4">
-            <h3 style="test-align: center;">유저 메인페이지</h3>
+        <h3 style="test-align: center;">유저 메인페이지</h3>
         <div class="jumbotron" style="padding-top: 20px;">
             <button type="button" class="btn btn-primary form-control" onClick="location.href='logoutAction.jsp'">로그아웃</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='showClass.jsp'">강의 검색/수강 신청</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='enrollClass.jsp'">강의 검색/수강 신청</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
-             <button type="button" class="btn btn-primary form-control" onClick="location.href='change_my.jsp'">나의 정보 변경</button>
+             <button type="button" class="btn btn-primary form-control" onClick="location.href='changeMy.jsp'">나의 정보 변경</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
                 <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">신청한 강의 변겅</button>

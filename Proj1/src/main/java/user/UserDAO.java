@@ -77,8 +77,40 @@ public class UserDAO {
         return classesList;
     }
 
+    // show my class (내가 만든)
+    public ArrayList<ClassLookUp> showMyClass(){
+        String SQL = "select * from user_class_look_up where userID= ?";
+        ArrayList<ClassLookUp> classesList = new ArrayList<ClassLookUp>();
+        try{
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,User.getS_user_id());
+            rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                ClassLookUp class_lookUp = new ClassLookUp();// 2부터 해야 userID는 제거된 화면을 볼 수 있다.
+                class_lookUp.setClass_id(rs.getInt(2));
+                class_lookUp.setCourse_id(rs.getString(3));
+                class_lookUp.setClass_name(rs.getString(4));
+                class_lookUp.setLecturer_name(rs.getString(5));
+                class_lookUp.setPerson_max(rs.getInt(6));
+                class_lookUp.setRoom_id(rs.getInt(7));
+                class_lookUp.setBuilding_name(rs.getString(8));
+                class_lookUp.setOpened(rs.getInt(9));
+                class_lookUp.setBegin(rs.getString(10));
+                class_lookUp.setEnd(rs.getString(11));
+                class_lookUp.setDay(rs.getString(12));
+
+
+                classesList.add(class_lookUp);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return classesList;
+    }
+
     //enroll (내가 만든)
-    public boolean enroll(String[] class_id_arr) {
+    public boolean enrollClass(String[] class_id_arr) {
         int r=0;
         for (int i = 0; i < class_id_arr.length; i++) {
             String SQL = "insert into enroll values (? ,?)";
@@ -86,6 +118,23 @@ public class UserDAO {
                 pstmt = conn.prepareStatement(SQL);
                 pstmt.setString(1,User.getS_user_id());
                 pstmt.setString(2,class_id_arr[i]);
+                r+=pstmt.executeUpdate();
+            } catch (SQLException e) {
+                return false;
+            }
+        }
+        if(r>=1){
+            return true;
+        }else return false;
+    }
+    public boolean change_enroll(String[] change_class_id_arr) {
+        int r=0;
+        for (int i = 0; i < change_class_id_arr.length; i++) {
+            String SQL = "delete from enroll where userID=? and class_id=?";
+            try {
+                pstmt = conn.prepareStatement(SQL);
+                pstmt.setString(1,User.getS_user_id());
+                pstmt.setString(2,change_class_id_arr[i]);
                 r+=pstmt.executeUpdate();
             } catch (SQLException e) {
                 return false;
