@@ -15,8 +15,8 @@
     <title>관리자 메인페이지</title>
 </head>
 <body>
+<h3 style="test-align: center;">관리자 메인페이지</h3>
     <div class="container">
-        <h3 style="test-align: center;">관리자 메인페이지</h3>
         <div class="col-lg-4">
             <div class="jumbotron" style="padding-top: 20px;">
                 <button type="button" class="btn btn-primary form-control"  onClick="location.href='logoutAction.jsp'">로그아웃</button>
@@ -24,7 +24,15 @@
             <div class="jumbotron" style="padding-top: 20px;">
                 <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">모든 사용자 정보 변경</button>
             </div>
+            <div class="jumbotron" style="padding-top: 20px;">
+                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">강좌 개설/삭제</button>
+            </div>
+            <div class="jumbotron" style="padding-top: 20px;">
+                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">과목/학생 정보 통계</button>
+            </div>
+
         </div>
+
     </div>
 </body>
 </html>

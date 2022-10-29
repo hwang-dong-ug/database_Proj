@@ -25,7 +25,7 @@
 
 <div class="container">
     <div class="row">
-        <h3> 신청한 강의 변경 </h3>
+        <h3> 희망 강의 </h3>
         <%
             int total_credit =new UserDAO().totalCredit();
         %>
@@ -59,7 +59,7 @@
 
             <%
                 UserDAO userDAO = new UserDAO();
-                ArrayList<ClassLookUp> list = userDAO.showMyClass();
+                ArrayList<ClassLookUp> list = userDAO.showWishClass(); //############################################
                 for(int i = 0; i < list.size(); i++) {
             %>
 

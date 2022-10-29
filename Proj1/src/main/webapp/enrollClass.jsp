@@ -34,6 +34,18 @@
         </div>
     </form>
 
+    <%
+        int total_credit =new UserDAO().totalCredit();
+    %>
+    <script>
+        document.write("<br>");
+        document.write("<br>");
+        document.write("<div class=\"col-lg-2\" style=\"padding-top: 5px;\">");
+        document.write('신청한 학점 :' + <%=total_credit%> + '<br>');
+        document.write('최대 학점 :' + <%=18%> + '<br>');
+        document.write("</div>");
+    </script>
+
 
     <div class="container">
         <div class="row">
@@ -48,6 +60,8 @@
                     <th style="text-align: center;">  class_name  </th>
                     <th style="text-align: center;">  lecturer_name  </th>
                     <th style="text-align: center;">  person_max  </th>
+                    <th style="text-align: center;">  user_count  </th>
+                    <th style="text-align: center;">  credit  </th>
                     <th style="text-align: center;">  room_id  </th>
                     <th style="text-align: center;">  building_name  </th>
                     <th style="text-align: center;">  opened  </th>
@@ -82,7 +96,7 @@
                     UserDAO userDAO = new UserDAO();
                     ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name);
 
-                    System.out.println(request.getParameter("class_name"));   // test 해보기 (오류 해결)!!!!!!!!1
+//                    System.out.println(request.getParameter("class_name"));   // test 해보기 (오류 해결)!!!!!!!!1
 
                     for(int i = 0; i < list.size(); i++) {
                 %>
@@ -95,6 +109,8 @@
                     <td><%= list.get(i).getClass_name()%></td>
                     <td><%= list.get(i).getLecturer_name()%></td>
                     <td><%= list.get(i).getPerson_max()%></td>
+                    <td><%= list.get(i).getUser_count()%></td>
+                    <td><%= list.get(i).getCredit()%></td>
                     <td><%= list.get(i).getRoom_id()%></td>
                     <td><%= list.get(i).getBuilding_name()%></td>
                     <td><%= list.get(i).getOpened()%></td>

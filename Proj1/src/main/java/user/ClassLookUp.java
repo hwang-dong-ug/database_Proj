@@ -8,6 +8,8 @@ ClassLookUp {
 
     private String lecturer_name;
     private int person_max;
+    private int user_count;
+    private int credit;
     private int room_id;
     private String building_name;
     private int opened;
@@ -16,6 +18,22 @@ ClassLookUp {
     private String end;
 
     private String day;
+
+    public int getUser_count() {
+        return user_count;
+    }
+
+    public void setUser_count(int user_count) {
+        this.user_count = user_count;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
 
     public String getClass_name() {
         return class_name;

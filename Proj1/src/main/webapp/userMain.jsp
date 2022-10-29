@@ -24,10 +24,21 @@
             <button type="button" class="btn btn-primary form-control" onClick="location.href='enrollClass.jsp'">강의 검색/수강 신청</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
-             <button type="button" class="btn btn-primary form-control" onClick="location.href='changeMy.jsp'">나의 정보 변경</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='wishClass.jsp'">희망 과목</button>
         </div>
+
         <div class="jumbotron" style="padding-top: 20px;">
-                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">신청한 강의 변겅</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">신청한 강의 변겅</button>
+        </div>
+
+        <div class="jumbotron" style="padding-top: 20px;">
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">시간표</button>
+        </div>
+
+
+
+        <div class="jumbotron" style="padding-top: 20px;">
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='changeMy.jsp'">나의 정보 변경</button>
         </div>
     </div>
 </div>
