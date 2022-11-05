@@ -12,14 +12,14 @@
 <body>
 	<%
 		String userID = null;
-		if(session.getAttribute("userID") != null)
+		if(session.getAttribute("userID") != null) //로그인을 시도 했으면
 		{
 			userID = (String) session.getAttribute("userID");
 		}
 	%>
 
 	<%
-		if(userID == null)
+		if(userID == null)	//로그인을 한적이 없으면 --> 로그인, 회원가입
 		{
 	%>
 	<div class="container">
@@ -36,14 +36,14 @@
 	</div>
 	<%		
 		}
-		else if(userID.equals(User.getS_admin_id())){
+		else if(userID.equals(User.getS_admin_id())){  //로그인 한 사람이 관리자 이면
 	%>
 		<script>
 			location.href = 'adminMain.jsp';
 		</script>
 	<%
 		}
-		else
+		else	//로그인 한 사람이 user 이면
 		{
 	%>
 		<script>

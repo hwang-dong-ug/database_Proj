@@ -56,15 +56,15 @@
 
             </thead>
             <tbody>
+            <form action="ChangeEnroll" method="post">
 
             <%
                 UserDAO userDAO = new UserDAO();
-                ArrayList<ClassLookUp> list = userDAO.showMyClass();
+                ArrayList<ClassLookUp> list = userDAO.showMyClass("enroll");
                 for(int i = 0; i < list.size(); i++) {
             %>
 
-            <tr>
-                <form action="ChangeEnroll" method="post">
+                 <tr>
                     <td><%= (i + 1)%></td>
                     <td><%= list.get(i).getClass_id()%></td>
                     <td><%= list.get(i).getCourse_id()%></td>
@@ -82,6 +82,7 @@
                     <td>
                         <input type="checkbox" name="class_id" value="<%=list.get(i).getClass_id()%>">
                     </td>
+                 </tr>
 
                     <%
                         }
@@ -94,7 +95,6 @@
                         </tr>
                     </table>
                 </form>
-            </tr>
             </tbody>
         </table>
     </div>

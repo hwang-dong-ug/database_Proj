@@ -24,7 +24,7 @@ public class UserDAO {
         }
     }
 
-
+//#########################공통
     //수강 할 수 있는 강의 조회
     public ArrayList<ClassLookUp> showClass(int class_id, String course_id, String class_name)
     {
@@ -43,11 +43,6 @@ public class UserDAO {
                 SQL+=" True"; // 뒤에 and
             }
 
-//            if(class_name!=null){
-//                SQL+=(" class_name=\'"+class_name+"\'");
-//            }else{
-//                SQL+=" True";
-//            }
             pstmt = conn.prepareStatement(SQL);
             rs = pstmt.executeQuery();
 
@@ -66,11 +61,7 @@ public class UserDAO {
                 class_lookUp.setClass_name(rs.getString(3));
                 class_lookUp.setLecturer_name(rs.getString(4));
                 class_lookUp.setPerson_max(rs.getInt(5));
-//                if(rs.getInt(6)==0){
-//                    class_lookUp.setUser_count(0);
-//                }else{
                 class_lookUp.setUser_count(rs.getInt(6));
-//                }
                 class_lookUp.setCredit(rs.getInt(7));
                 class_lookUp.setRoom_id(rs.getInt(8));
                 class_lookUp.setBuilding_name(rs.getString(9));
@@ -88,18 +79,16 @@ public class UserDAO {
         return classesList;
     }
 
-    //희망 강의 조회
-    public ArrayList<ClassLookUp> showWishClass(){
-        String SQL = "select * from user_class_look_up_extended where userID= ?";
-        ArrayList<ClassLookUp> classesList = new ArrayList<ClassLookUp>();
-//#################################################### 여기 수정 ############################
-        return classesList;
-    }
 
-
-    //수강한 강의조회
-    public ArrayList<ClassLookUp> showMyClass(){
-        String SQL = "select * from user_class_look_up_extended where userID= ?";
+//#########################USER
+    //수강한 강의조회 //희망 강의 조회
+    public ArrayList<ClassLookUp> showMyClass(String table){
+        String SQL;
+        if(table.equals("enroll")){
+            SQL= "select * from user_class_look_up_extended where userID= ?";
+        }else{
+            SQL= "select * from user_wish_class_look_up_extended where userID= ?"; //wish_enroll으로 table이 오면
+        }
         ArrayList<ClassLookUp> classesList = new ArrayList<ClassLookUp>();
 
         try{
@@ -132,35 +121,38 @@ public class UserDAO {
         return classesList;
     }
 
-    //수강 신청
-    public int enrollClass(String class_id) { //status 1:등록 성공 0:등록 실패 -1:학점 초과 -2:정원 초과 -3:재수강 실패(성적) -4:재수강 성공
+    //수강 신청  //희망 바구니 담기
+    public int enrollClass(String class_id,String table) { //status 1:등록 성공 0:등록 실패 -1:학점 초과 -2:정원 초과 -3:재수강 실패(성적) -4:재수강 성공
         int status=1; //성공으로 출발
         try {
-            conn.setAutoCommit(false);
-            String SQL = "insert into enroll values (? ,?)";
+            conn.setAutoCommit(false);              //transaction으로 처리 하기 위해서 auto commit을 꺼준다
+            String SQL = "insert into "+ table +" values (? ,?)";
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1,User.getS_user_id());
             pstmt.setString(2,class_id);
             status = pstmt.executeUpdate();
 
-            int reEnrollStatus = checkReEnroll(class_id);
+            if(table.equals("enroll")){
+                int reEnrollStatus = checkReEnroll(class_id);
 
-            if(!checkCreditToEnroll()) {
-                status= -1;
-                throw new SQLException(); // rollback하는 예외처리로 넘아간다.
-            } else if (!checkMaxPersonToEnroll(class_id)) {
-                status = -2;
-                throw new SQLException();
+                if(!checkCreditToEnroll()) {
+                    status= -1;
+                    throw new SQLException(); // rollback하는 예외처리로 넘아간다.
+                } else if (!checkMaxPersonToEnroll(class_id)) {
+                    status = -2;
+                    throw new SQLException();
 
-            } else if (reEnrollStatus ==-1) { // 재수강 실패
-                status = -3;
-                throw new SQLException();
-            } else {
-                if (reEnrollStatus == 1)// 재수강 성공
-                    status = -4;
-                conn.commit();
-                pstmt.close();
+                } else if (reEnrollStatus ==-1) { // 재수강 실패
+                    status = -3;
+                    throw new SQLException();
+                } else {
+                    if (reEnrollStatus == 1)// 재수강 성공
+                        status = -4;
+                }
             }
+            conn.commit();
+            pstmt.close();
+
         } catch (SQLIntegrityConstraintViolationException e1) {
             try {
                 conn.rollback();
@@ -168,7 +160,7 @@ public class UserDAO {
                 throw new RuntimeException(e);
             }
             status=0;
-            return status; //등록 실패시 0가능
+            return status; //등록 실패시(동일한 정보) 0 가능
         }catch (SQLException e2){
             try {
                 conn.rollback();
@@ -197,13 +189,16 @@ public class UserDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if(grade == -1){
-            status=0;
-        }else if (grade<3.0){ //B0 미만(C+ 이하)인 경우 == 재수강 신청 가능
+        if (grade<3.0){ //B0 미만(C+ 이하)인 경우 == 재수강 신청 가능
             status=1;
         }else{
             status=-1;
         }
+
+        if(grade == -1){
+            status=0;
+        }
+
         return status;
     }
 
@@ -300,11 +295,16 @@ public class UserDAO {
         return total_credit;
     }
 
-    // 수강내역 삭제
-    public boolean change_enroll(String[] change_class_id_arr) {
+    // 수강내역 삭제  //희망 내역 삭제
+    public boolean change_enroll(String[] change_class_id_arr, String table) {
         int r=0;
         for (int i = 0; i < change_class_id_arr.length; i++) {
-            String SQL = "delete from enroll where userID=? and class_id=?";
+            String SQL;
+            if(table.equals("enroll")){
+                SQL= "delete from enroll where userID=? and class_id=?";
+            }else{
+                SQL= "delete from wish_enroll where userID=? and class_id=?";
+            }
             try {
                 pstmt = conn.prepareStatement(SQL);
                 pstmt.setString(1,User.getS_user_id());
@@ -326,8 +326,6 @@ public class UserDAO {
 
 
         try {
-//            System.out.println(new_userId+" "+new_userPassword);
-//            System.out.println(old_userId+" "+old_userPassword);
 
             pstmt = conn.prepareStatement(SQL);
             pstmt.setString(1,new_user.getUserID());
@@ -354,13 +352,19 @@ public class UserDAO {
         try {
             response.setContentType("text/html; charset=utf-8");
             PrintWriter w = response.getWriter();
-            w.write("<script>alert('"+msg+"');location.href='"+url+"';</script>");
+            if(url == null){
+                w.write("<script>alert('"+msg+"'); history.back();</script>");
+            }else{
+                w.write("<script>alert('"+msg+"');location.href='"+url+"';</script>");
+            }
+
             w.flush();
             w.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
+
 
 
     public String test(String userID, String userPassword)
@@ -377,14 +381,14 @@ public class UserDAO {
         try{
 
             pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(1, userID); // ?에 input으로 들어온 userID
+            pstmt.setString(1, userID);
             rs = pstmt.executeQuery();
             if(rs.next())
             {
-                if(rs.getString(1).equals(userPassword)) //
+                if(rs.getString(1).equals(userPassword))
                 {
-                    User.setS_user_id(userID);  //관리자도 여기서 userID
-                    User.setS_user_pwd(userPassword); // userPasswor에 해당
+                    User.setS_user_id(userID);  //현재 로그인한 유저 id 저장
+                    User.setS_user_pwd(userPassword); // password 저장
                     return 1; //로그인 성공
                 }
                 else
@@ -401,7 +405,7 @@ public class UserDAO {
     
     public int join(User user)
     {
-    	String SQL = "INSERT INTO USER VALUES (?, ?, ?, ?, ?)";
+    	String SQL = "INSERT INTO USER(userID,userPassword,userName,userGender,userEmail) VALUES (?, ?, ?, ?, ?)";
     	try
     	{
     		pstmt = conn.prepareStatement(SQL);
@@ -417,7 +421,224 @@ public class UserDAO {
     	return -1; // 데이터베이스 오류
     }
 
+    //##########################관리자
 
+    //시간표 생성
+    public ArrayList<TimeTable> createTimeTable(String student_id){
+        ArrayList<TimeTable> timeTables =new ArrayList<>();
+        try {
+            String SQL = "select * from student_id_time where student_id = ?";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,student_id); // course_id를 통해 검색
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                TimeTable timeTable = new TimeTable(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7)
+                );
+                timeTables.add(timeTable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return timeTables;
+    }
+
+    //새로운 강의 개설  //여기서부터!!!!!!!!!!!!!
+    public int openClass(OpenClassContainer openClassContainer){
+        String class_id = openClassContainer.getClass_id();
+        String course_id = openClassContainer.getCourse_id();
+        String lecturer_name= openClassContainer.getLecturer_name();
+        int person_max = Integer.parseInt(openClassContainer.getPerson_max());
+        int room_id = Integer.parseInt(openClassContainer.getRoom_id());
+        String begin = openClassContainer.getBegin();
+        String end = openClassContainer.getEnd();
+        String day = openClassContainer.getDay();
+
+        int status=0;
+
+        // #########part 1-3 필용한 정보 추출
+
+        // part 1.
+        String class_no= null;
+        String name =null;
+        int major_id = -1 ;
+        int year= -1;
+        int credit= -1;
+        try {
+            String SQL = "SELECT class_no," +
+                    "name," +
+                    "major_id," +
+                    "year," +
+                    "credit" +
+                    " FROM class " +
+                    "where course_id = ? limit 1";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,course_id); // course_id를 통해 검색
+            rs = pstmt.executeQuery();
+            while (rs.next()){ // rs가 null 일 때를 방지
+                class_no = rs.getString(1);
+                name = rs.getString(2);
+                major_id = rs.getInt(3);
+                year =rs.getInt(4);
+                credit = rs.getInt(5);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // part 2.
+        String lecturer_id =null;
+        try {
+            String SQL = "SELECT lecturer_id" +
+                    " FROM lecturer " +
+                    "where name = ? limit 1";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,lecturer_name); // lecturer_name를 통해 검색
+            rs = pstmt.executeQuery();
+            while (rs.next()){ // rs가 null 일 때를 방지
+                lecturer_id = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //part 3.
+        int occupancy =-1;
+        try {
+            String SQL = "SELECT occupancy" +
+                    " FROM room " +
+                    "where room_id = ? limit 1";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1,room_id); // room_id를 통해 검색
+            rs = pstmt.executeQuery();
+            while (rs.next()){ // rs가 null 일 때를 방지
+                occupancy =rs.getInt(1);
+                if(person_max>occupancy){
+                    status=-3;                                              //  -3 == 수강정원이 방 수용 가능한 인원보다 큰 경우
+                    return status;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // part 4.
+        int begin_id = -1;
+        int end_id = -1;
+
+        try {
+            String SQL = "SELECT time_at_id" +
+                    " FROM time_at " +
+                    "where time in (?,?) order by time_at_id asc";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,begin);
+            pstmt.setString(2,end);
+            rs = pstmt.executeQuery();
+
+            rs.next();
+            begin_id =Integer.parseInt(rs.getString(1));
+            rs.next();
+            end_id =Integer.parseInt(rs.getString(1));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        //#######part 5-6 table에 정보를 insert
+
+        //part 5. insert into class
+        try {
+            conn.setAutoCommit(false); //transaction을 사용해서 part5가 실패하면 part4도 취소
+            String SQL = "insert into class values (?,?,?,?,?,?,?,?,?,?,?)";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,class_id);
+            pstmt.setString(2,class_no);
+            pstmt.setString(3,course_id);
+            pstmt.setString(4,name);
+            pstmt.setInt(5,major_id);
+            pstmt.setInt(6,year);
+            pstmt.setInt(7,credit);
+            pstmt.setString(8,lecturer_id);
+            pstmt.setInt(9,person_max);
+            pstmt.setInt(10,2022);  // default 2022
+            pstmt.setInt(11,room_id);
+            pstmt.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // part 6.
+        try {
+            String SQL = "insert into time(class_id,begin_id,end_id,day) values (?,?,?,?)";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1,class_id);
+            pstmt.setInt(2,begin_id);
+            pstmt.setInt(3,end_id);
+            pstmt.setString(4,day);
+            pstmt.execute();
+
+            conn.commit();
+            pstmt.close();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+
+        return status;
+    }
+
+    //강의 삭제
+    public boolean closeClass(String[] class_id_arr){
+        for (int i = 0; i < class_id_arr.length; i++) {
+            try {
+                conn.setAutoCommit(true);
+
+                String SQL= "delete from class where class_id=?"; // class를 삭제 하면 cascade 되어 있기 때문에 time 또한 같이 삭제
+                pstmt = conn.prepareStatement(SQL);
+                pstmt.setString(1,class_id_arr[i]);
+                pstmt.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return true;
+    }
+
+    //유저 삭제
+    public boolean deleteUser(String[] userID_arr){
+
+        for (int i = 0; i < userID_arr.length; i++) {
+
+            try {
+                conn.setAutoCommit(true);
+                String SQL= "delete from user where userID=?";
+                pstmt = conn.prepareStatement(SQL);
+                pstmt.setString(1,userID_arr[i]);
+                pstmt.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return true;
+    }
+
+    //모든 user 조회
     public ArrayList<User> showAll()
     {
         String SQL = "SELECT * FROM USER";

@@ -19,7 +19,7 @@ public class ChangeEnroll extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String[] change_class_id_arr = request.getParameterValues("class_id");
-        if(new UserDAO().change_enroll(change_class_id_arr)){
+        if(new UserDAO().change_enroll(change_class_id_arr,"enroll")){
             UserDAO.alertAndGo(response,"삭제 성공","changeEnroll.jsp");
         }else{
             UserDAO.alertAndGo(response,"삭제 실패","changeEnroll.jsp");

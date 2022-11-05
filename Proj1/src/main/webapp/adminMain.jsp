@@ -22,10 +22,10 @@
                 <button type="button" class="btn btn-primary form-control"  onClick="location.href='logoutAction.jsp'">로그아웃</button>
             </div>
             <div class="jumbotron" style="padding-top: 20px;">
-                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">모든 사용자 정보 변경</button>
+                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">학생 정보/과목 상태 조회 및 변경</button>
             </div>
             <div class="jumbotron" style="padding-top: 20px;">
-                <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">강좌 개설/삭제</button>
+                <button type="button" class="btn btn-primary form-control" onClick="location.href='openCloseClass.jsp'">강좌 개설/삭제</button>
             </div>
             <div class="jumbotron" style="padding-top: 20px;">
                 <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">과목/학생 정보 통계</button>

@@ -38,7 +38,7 @@
         int total_credit =new UserDAO().totalCredit();
     %>
     <script>
-        document.write("<br>");
+        document.write("<br>");                     // 학점 표시
         document.write("<br>");
         document.write("<div class=\"col-lg-2\" style=\"padding-top: 5px;\">");
         document.write('신청한 학점 :' + <%=total_credit%> + '<br>');
@@ -75,12 +75,18 @@
                 <tbody>
 
                 <%
+                    // userDao,showClass에 전달 될 인자를 오류가 날 수 있는 상황에 맞게 가공
+
+                    // initial setting  --> 아무것도 들어 오지 않았을 때
                     int class_id=0;
                     String course_id=null;
                     String class_name=null;
+
+
+                    // --> 인자들이 들어왔을 때
                     request.setCharacterEncoding("UTF-8");
                     if(request.getParameter("class_id") != null ) {
-                        if (request.getParameter("class_id").equals("")) class_id=0;
+                        if (request.getParameter("class_id").equals("")) class_id=0;        //input tag에서 빈칸을 submit 하게 되면 empty string이 전달도기 때문에 그에 맞는 처리!
                         else class_id = Integer.parseInt(request.getParameter("class_id"));
                     }
                     if(request.getParameter("course_id") != null){
@@ -94,15 +100,14 @@
 
 
                     UserDAO userDAO = new UserDAO();
-                    ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name);
+                    ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name); //class_look_up_extended view에서 조회한 정보를 arraylist의 형태로 가져온다
 
-//                    System.out.println(request.getParameter("class_name"));   // test 해보기 (오류 해결)!!!!!!!!1
 
                     for(int i = 0; i < list.size(); i++) {
                 %>
 
                 <tr>
-                    <form action="enrollClass" method="post">
+                    <form method="post">
                     <td><%= (i + 1)%></td>
                     <td><%= list.get(i).getClass_id()%></td>
                     <td><%= list.get(i).getCourse_id()%></td>
@@ -119,6 +124,7 @@
                     <td><%= list.get(i).getDay()%></td>
                     <td>
                         <input type="checkbox" name="class_id" value="<%=list.get(i).getClass_id()%>">
+<%--                        table에서 각각의 row에 해당하는 정보의 class_id를 전달--%>
                     </td>
 
 
@@ -127,9 +133,16 @@
                 %>
                         <table>
                             <tr>
-                            <div class="col-lg-1" style="padding-top: 5px;">
-                                <input type="submit" value="신청" class="btn btn-primary form-control">
-                            </div>
+                                <td>
+                                    <div class="col-lg-2" style="padding-top: 5px;">
+                                        <input formaction="enrollClass" type="submit" value="수강 신청" class="btn btn-primary form-control">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-lg-2" style="padding-top: 5px;">
+                                        <input formaction="wishClass" type="submit" value="희망 수업에 담기" class="btn btn-primary form-control">
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </form>

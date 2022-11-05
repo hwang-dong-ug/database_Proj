@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.css">
     <title></title>
 </head>
@@ -23,35 +23,31 @@
     <button type="button" class="btn btn-primary form-control" onClick="location.href='userMain.jsp'">메인으로 이동</button>
 </div>
 
+<%--####################### changeEnroll과 비슷한 역할 #########################################--%>
+<%--####################### 희망 강의 삭제#########################################--%>
+
 <div class="container">
     <div class="row">
         <h3> 희망 강의 </h3>
-        <%
-            int total_credit =new UserDAO().totalCredit();
-        %>
-        <script>
-            document.write('신청한 학점 :' + <%=total_credit%> + '<br>');
-            document.write('최대 학점 :' + <%=18%> + '<br>');
-        </script>
 
-        <table class="table" width ="750" style="text-align: center; border: 1px solid #dddddd">
+        <table class="table" width="750" style="text-align: center; border: 1px solid #dddddd">
             <thead>
             <tr>
-                <th style="text-align: center;">         </th>
-                <th style="text-align: center;">  class_id  </th>
-                <th style="text-align: center;">  course_id  </th>
-                <th style="text-align: center;">  class_name  </th>
-                <th style="text-align: center;">  lecturer_name  </th>
-                <th style="text-align: center;">  person_max  </th>
-                <th style="text-align: center;">  user_count  </th>
-                <th style="text-align: center;">  credit  </th>
-                <th style="text-align: center;">  room_id  </th>
-                <th style="text-align: center;">  building_name  </th>
-                <th style="text-align: center;">  opened  </th>
-                <th style="text-align: center;">  begin  </th>
-                <th style="text-align: center;">  end  </th>
-                <th style="text-align: center;">  day  </th>
-                <th style="text-align: center;">  </th>
+                <th style="text-align: center;"></th>
+                <th style="text-align: center;"> class_id</th>
+                <th style="text-align: center;"> course_id</th>
+                <th style="text-align: center;"> class_name</th>
+                <th style="text-align: center;"> lecturer_name</th>
+                <th style="text-align: center;"> person_max</th>
+                <th style="text-align: center;"> user_count</th>
+                <th style="text-align: center;"> credit</th>
+                <th style="text-align: center;"> room_id</th>
+                <th style="text-align: center;"> building_name</th>
+                <th style="text-align: center;"> opened</th>
+                <th style="text-align: center;"> begin</th>
+                <th style="text-align: center;"> end</th>
+                <th style="text-align: center;"> day</th>
+                <th style="text-align: center;"></th>
             </tr>
 
             </thead>
@@ -59,26 +55,40 @@
 
             <%
                 UserDAO userDAO = new UserDAO();
-                ArrayList<ClassLookUp> list = userDAO.showWishClass(); //############################################
-                for(int i = 0; i < list.size(); i++) {
+                ArrayList<ClassLookUp> list = userDAO.showMyClass("wish_enroll");
+                for (int i = 0; i < list.size(); i++) {
             %>
 
             <tr>
-                <form action="ChangeEnroll" method="post">
-                    <td><%= (i + 1)%></td>
-                    <td><%= list.get(i).getClass_id()%></td>
-                    <td><%= list.get(i).getCourse_id()%></td>
-                    <td><%= list.get(i).getClass_name()%></td>
-                    <td><%= list.get(i).getLecturer_name()%></td>
-                    <td><%= list.get(i).getPerson_max()%></td>
-                    <td><%= list.get(i).getUser_count()%></td>
-                    <td><%= list.get(i).getCredit()%></td>
-                    <td><%= list.get(i).getRoom_id()%></td>
-                    <td><%= list.get(i).getBuilding_name()%></td>
-                    <td><%= list.get(i).getOpened()%></td>
-                    <td><%= list.get(i).getBegin()%></td>
-                    <td><%= list.get(i).getEnd()%></td>
-                    <td><%= list.get(i).getDay()%></td>
+                <form method="post">
+                    <td><%= (i + 1)%>
+                    </td>
+                    <td><%= list.get(i).getClass_id()%>
+                    </td>
+                    <td><%= list.get(i).getCourse_id()%>
+                    </td>
+                    <td><%= list.get(i).getClass_name()%>
+                    </td>
+                    <td><%= list.get(i).getLecturer_name()%>
+                    </td>
+                    <td><%= list.get(i).getPerson_max()%>
+                    </td>
+                    <td><%= list.get(i).getUser_count()%>
+                    </td>
+                    <td><%= list.get(i).getCredit()%>
+                    </td>
+                    <td><%= list.get(i).getRoom_id()%>
+                    </td>
+                    <td><%= list.get(i).getBuilding_name()%>
+                    </td>
+                    <td><%= list.get(i).getOpened()%>
+                    </td>
+                    <td><%= list.get(i).getBegin()%>
+                    </td>
+                    <td><%= list.get(i).getEnd()%>
+                    </td>
+                    <td><%= list.get(i).getDay()%>
+                    </td>
                     <td>
                         <input type="checkbox" name="class_id" value="<%=list.get(i).getClass_id()%>">
                     </td>
@@ -89,7 +99,13 @@
                     <table>
                         <tr>
                             <div class="col-lg-1" style="padding-top: 5px;">
-                                <input type="submit" value="삭제" class="btn btn-primary form-control">
+                                <input type="submit" formaction="ChangeWishEnroll" value="삭제"
+                                       class="btn btn-primary form-control">
+                            </div>
+                            <div class="col-lg-1" style="padding-top: 5px;">
+                                <%--                                주의 신청시 wishClass청 아니라 enrollClass로 넘어간--%>
+                                <input type="submit" formaction="enrollClass" value="신청"
+                                       class="btn btn-primary form-control">
                             </div>
                         </tr>
                     </table>

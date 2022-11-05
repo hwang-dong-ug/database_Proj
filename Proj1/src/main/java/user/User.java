@@ -1,8 +1,8 @@
 package user;
 
 public class User {
-    private final static  String s_admin_id="admin";
-    private final static  String s_admin_pwd="1234";
+    private final static  String s_admin_id="admin"; //관리자는 아이디 따라로 constant 하게 지정
+    private final static  String s_admin_pwd="1234"; // password도 따로 지정
 
     public static String getS_admin_id() {
         return s_admin_id;
@@ -13,8 +13,8 @@ public class User {
     }
 
 
-    private static String s_user_id;
-    private static String s_user_pwd;
+    private static String s_user_id; //현재 로그인한 유저 id
+    private static String s_user_pwd; //현재 로그인한 유저 password
     private String UserID;
     private String UserPassword;
     private String UserName;

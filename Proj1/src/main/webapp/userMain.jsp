@@ -32,7 +32,7 @@
         </div>
 
         <div class="jumbotron" style="padding-top: 20px;">
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">시간표</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='schedule.jsp'">시간표</button>
         </div>
 
 

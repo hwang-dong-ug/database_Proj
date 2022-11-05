@@ -35,12 +35,12 @@ public class ChangeMy extends HttpServlet {
 
             boolean result =new UserDAO().user_change(old_user,new_user);
             if(result){
-                UserDAO.alertAndGo(response,"변경성공","changeMy.jsp");
+                UserDAO.alertAndGo(response,"변경성공",null);
             }else{
-                UserDAO.alertAndGo(response,"변경실패","changeMy.jsp");
+                UserDAO.alertAndGo(response,"변경실패",null);
             }
         }else{
-            UserDAO.alertAndGo(response,"필수정보 오류","changeMy.jsp");
+            UserDAO.alertAndGo(response,"필수정보 오류",null);
         }
 
 
