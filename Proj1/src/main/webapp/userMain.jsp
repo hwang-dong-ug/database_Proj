@@ -23,7 +23,7 @@
             <button type="button" class="btn btn-primary form-control" onClick="location.href='logoutAction.jsp'">로그아웃</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='enrollClass.jsp'">강의 검색/수강 신청</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='enrollClass.jsp'">강의 검색/수강 신청/ 희망 수업 담기</button>
         </div>
         <div class="jumbotron" style="padding-top: 20px;">
             <button type="button" class="btn btn-primary form-control" onClick="location.href='wishClass.jsp'">희망 과목</button>
