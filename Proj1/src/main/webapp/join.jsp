@@ -23,7 +23,10 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="이름" name="userName" maxlength="20">
-                    </div>                  
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="학번" name="student_id" maxlength="20">
+                    </div>
                     <div class="form-group" style="test-align: center;">
                     	<div class="btn-group" data-roggle="buttons">
                     		<label class="btn btn-primary">

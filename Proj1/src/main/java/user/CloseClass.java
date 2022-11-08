@@ -23,7 +23,7 @@ public class CloseClass extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         String[] class_id_arr = request.getParameterValues("class_id");
-        boolean result = new UserDAO().closeClass(class_id_arr);
+        boolean result = new UserDAO(request.getSession()).closeClass(class_id_arr);
         if(result)
             UserDAO.alertAndGo(response,"삭제 성공","openCloseClass.jsp");
     }

@@ -12,29 +12,20 @@ public class User {
         return s_admin_pwd;
     }
 
-
-    private static String s_user_id; //현재 로그인한 유저 id
-    private static String s_user_pwd; //현재 로그인한 유저 password
     private String UserID;
     private String UserPassword;
     private String UserName;
+
+    private String student_id;
     private String UserGender;
     private String UserEmail;
 
-    public static String getS_user_id() {
-        return s_user_id;
+    public String getStudent_id() {
+        return student_id;
     }
 
-    public static void setS_user_id(String s_user_id) {
-        User.s_user_id = s_user_id;
-    }
-
-    public static String getS_user_pwd() {
-        return s_user_pwd;
-    }
-
-    public static void setS_user_pwd(String s_user_pwd) {
-        User.s_user_pwd = s_user_pwd;
+    public void setStudent_id(String student_id) {
+        this.student_id = student_id;
     }
 
     public String getUserID() {

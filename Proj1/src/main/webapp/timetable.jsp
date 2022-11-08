@@ -24,12 +24,12 @@
 </head>
 <body>
 <div class="col-lg-2" style="padding-top: 5px;">
-    <button type="button" class="btn btn-primary form-control" onClick="location.href='changeAll.jsp'">이전 페이지</button>
+    <button type="button" class="btn btn-primary form-control" onClick="history.go(-1)">이전 페이지</button>
 </div>
 
 <%
     String student_id = request.getParameter("student_id");
-    ArrayList<TimeTable> timeTables = new UserDAO().createTimeTable(student_id);
+    ArrayList<TimeTable> timeTables = new UserDAO(session).createTimeTable(student_id);
 
     String userName = timeTables.get(0).getUserName();
     String userID = timeTables.get(0).getUserID();
@@ -44,7 +44,7 @@
     <thead>
     <tr>
         <th style="text-align: center;">         </th>
-        <th style="text-align: center;">  class_id  </th>
+        <th style="text-align: center;">  class_name  </th>
         <th style="text-align: center;">  begin  </th>
         <th style="text-align: center;">  end  </th>
         <th style="text-align: center;">  day  </th>
@@ -57,7 +57,7 @@
 %>
 <tr>
     <td><%= (i + 1)%></td>
-    <td><%= timeTables.get(i).getClass_id()%></td>
+    <td><%= timeTables.get(i).getClass_name()%></td>
     <td><%= timeTables.get(i).getBegin()%></td>
     <td><%= timeTables.get(i).getEnd()%></td>
     <td><%= timeTables.get(i).getDay()%></td>

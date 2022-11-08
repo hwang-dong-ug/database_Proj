@@ -27,7 +27,7 @@
     <div class="row">
         <h3> 신청한 강의 변경 </h3>
         <%
-            int total_credit =new UserDAO().totalCredit();
+            int total_credit =new UserDAO(session).totalCredit();
         %>
         <script>
             document.write('신청한 학점 :' + <%=total_credit%> + '<br>');
@@ -59,7 +59,7 @@
             <form action="ChangeEnroll" method="post">
 
             <%
-                UserDAO userDAO = new UserDAO();
+                UserDAO userDAO = new UserDAO(session);
                 ArrayList<ClassLookUp> list = userDAO.showMyClass("enroll");
                 for(int i = 0; i < list.size(); i++) {
             %>

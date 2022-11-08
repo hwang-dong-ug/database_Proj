@@ -19,7 +19,7 @@ public class ChangeWishEnroll extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String[] change_class_id_arr = request.getParameterValues("class_id");
-        if(new UserDAO().change_enroll(change_class_id_arr,"wish_enroll")){
+        if(new UserDAO(request.getSession()).change_enroll(change_class_id_arr,"wish_enroll")){
             UserDAO.alertAndGo(response,"삭제 성공","wishClass.jsp"); // url 을 null로 하지 않은 이유 : 변경사항이 업로드 되게 하기 위해서
         }else{
             UserDAO.alertAndGo(response,"삭제 실패","wishClass.jsp");

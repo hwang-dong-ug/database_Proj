@@ -27,7 +27,7 @@ public class WishClass extends HttpServlet{
         }
 
         String class_id = class_id_arr[0];
-        int result = new UserDAO().enrollClass(class_id,"wish_enroll");  // 희망수업의 경우 result는 0, 1만 가능
+        int result = new UserDAO(request.getSession()).enrollClass(class_id,"wish_enroll");  // 희망수업의 경우 result는 0, 1만 가능
 
         // 결과에 따른 경고 창 생성 후  "enrollClass.jsp" 로 이동
         if (result == 1) {

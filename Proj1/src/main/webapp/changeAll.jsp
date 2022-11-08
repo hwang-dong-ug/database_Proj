@@ -32,7 +32,7 @@
 <div class="container">
     <div class="col-lg-4">
         <div class="jumbotron" style="padding-top: 20px;">
-            <form method="post">
+            <form>
                 <table>
                     <thead>
                     <tr>
@@ -44,19 +44,16 @@
                             <input type="submit" formaction="timetable.jsp" class="btn btn-primary form-control" value="금학기 시간표 조회">
                         </th>
                         <th>
-                            <input type="submit" formaction="" class="btn btn-primary form-control" value="성적 조회">
+                            <input type="submit" formaction="credit.jsp" class="btn btn-primary form-control" value="성적 조회">
                         </th>
                         <th>
-                            <input type="submit" class="btn btn-primary form-control" value="재학/휴학/자퇴 등 상태 변경">
-                        </th>
-                        <th>
-                            <input type="submit" class="btn btn-primary form-control" value="지도교수 조회">
+                            <input type="submit" formaction="state_lecturer.jsp" class="btn btn-primary form-control" value="재학/휴학/자퇴 등 상태 변경 및 지도 교수 조회">
                         </th>
                     </tr>
                     </thead>
                 </table>
             </form>
-            <form method="post" action="ChangeAll">
+            <form method="post" action="ClassAddNum">
                 <table>
                     <thead>
                     <tr>
@@ -75,7 +72,7 @@
                     </thead>
                 </table>
             </form>
-            <form method="post" action="ChangeAll">
+            <form method="post" action="AllowClass">
                 <table>
                     <thead>
                     <tr>

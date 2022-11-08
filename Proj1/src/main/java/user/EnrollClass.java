@@ -28,7 +28,7 @@ public class EnrollClass extends HttpServlet{
         }
 
         String class_id = class_id_arr[0];
-        int result =new UserDAO().enrollClass(class_id,"enroll");  // 여기서 나온 결과에 따라 조건을 처리한다
+        int result =new UserDAO(request.getSession()).enrollClass(class_id,"enroll");  // 여기서 나온 결과에 따라 조건을 처리한다
 
 
         // 결과에 따른 경고 창 생성 후  "enrollClass.jsp" 로 이동

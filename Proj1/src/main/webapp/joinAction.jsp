@@ -6,6 +6,7 @@
 <jsp:setProperty name="user" property="userID" />
 <jsp:setProperty name="user" property="userPassword" />
 <jsp:setProperty name="user" property="userName" />
+<jsp:setProperty name="user" property="student_id" />
 <jsp:setProperty name="user" property="userGender" />
 <jsp:setProperty name="user" property="userEmail" />
 <!DOCTYPE html>
@@ -44,7 +45,7 @@
     	}
     	else
     	{
-            UserDAO userDAO = new UserDAO();
+            UserDAO userDAO = new UserDAO(session);
 
             int result = userDAO.join(user);
 
@@ -52,7 +53,7 @@
             {
             	PrintWriter script = response.getWriter();
                 script.println("<script>");
-                script.println("alert('이미 존재하는 아이디입니다.')");
+                script.println("alert('이미 존재하는 아이이거나 학번이 존재하지 않습니다.(학번 table에 student_id를 확인 하십시오.)')");
                 script.println("history.back()");
                 script.println("</script>");
             }

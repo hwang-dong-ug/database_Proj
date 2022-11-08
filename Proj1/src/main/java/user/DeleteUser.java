@@ -23,7 +23,7 @@ public class DeleteUser extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
 
         String[] userID_arr = request.getParameterValues("userID");
-        boolean result = new UserDAO().deleteUser(userID_arr);
+        boolean result = new UserDAO(request.getSession()).deleteUser(userID_arr);
         if(result)
             UserDAO.alertAndGo(response,"삭제 성공","changeAll.jsp");
     }

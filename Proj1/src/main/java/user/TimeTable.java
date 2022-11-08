@@ -3,18 +3,22 @@ public class TimeTable {
     String student_id;
     String userID;
     String userName;
-    String class_id;
+    String class_name;
     String begin;
+    String end;
+    String day;
 
-    public TimeTable(String student_id, String userID, String userName, String class_id, String begin, String end, String day) {
+    public TimeTable(String student_id, String userID, String userName, String class_name, String begin, String end, String day) {
         this.student_id = student_id;
         this.userID = userID;
         this.userName = userName;
-        this.class_id = class_id;
+        this.class_name = class_name;
         this.begin = begin;
         this.end = end;
         this.day = day;
     }
+
+//    public String[]
 
     public String getStudent_id() {
         return student_id;
@@ -40,12 +44,12 @@ public class TimeTable {
         this.userName = userName;
     }
 
-    public String getClass_id() {
-        return class_id;
+    public String getClass_name() {
+        return class_name;
     }
 
-    public void setClass_id(String class_id) {
-        this.class_id = class_id;
+    public void setClass_id(String class_name) {
+        this.class_name = class_name;
     }
 
     public String getBegin() {
@@ -72,8 +76,7 @@ public class TimeTable {
         this.day = day;
     }
 
-    String end;
-    String day;
+
 
 }
 

@@ -54,7 +54,7 @@
             <tbody>
 
             <%
-                UserDAO userDAO = new UserDAO();
+                UserDAO userDAO = new UserDAO(session);
                 ArrayList<ClassLookUp> list = userDAO.showMyClass("wish_enroll");
                 for (int i = 0; i < list.size(); i++) {
             %>

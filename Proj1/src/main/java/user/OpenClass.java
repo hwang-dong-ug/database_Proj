@@ -42,8 +42,19 @@ public class OpenClass extends HttpServlet{
                 day
         );
 
-        int result = new UserDAO().openClass(openClassContainer);
-        UserDAO.alertAndGo(response,"개설 성공","openCloseClass.jsp");
+        int result = new UserDAO(request.getSession()).openClass(openClassContainer);
+        if(result == -1){
+            UserDAO.alertAndGo(response,"개설 실패 (occupancy 촤과한 max_person)","openCloseClass.jsp");
+
+        } else if (result == -2) {
+            UserDAO.alertAndGo(response,"개설 실패 (class table 오류)","openCloseClass.jsp");
+
+        } else if (result== -3) {
+            UserDAO.alertAndGo(response,"개설 성공 (time table 오류)","openCloseClass.jsp");
+
+        }else {
+            UserDAO.alertAndGo(response,"개설 성공","openCloseClass.jsp");
+        }
     }
 
 }

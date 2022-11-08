@@ -33,7 +33,7 @@
             <tbody>
             <form method="post">
                 <%
-                    UserDAO userDAO = new UserDAO();
+                    UserDAO userDAO = new UserDAO(session);
                     ArrayList<User> list = userDAO.showAll();
 
                     for (int i = 0; i < list.size(); i++) {

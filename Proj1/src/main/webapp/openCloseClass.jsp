@@ -24,18 +24,11 @@
 <div class="col-lg-2" style="padding-top: 5px;">
     <button type="button" class="btn btn-primary form-control" onClick="location.href='adminMain.jsp'">메인으로 이동</button>
 </div>
-<form action="openCloseClass.jsp" accept-charset="UTF-8">
-    <h3 style="test-align: center;" style="padding-top: 20px;">모든 class 정보</h3>
-    <input type="text" class="form-control" placeholder="수업번호" name="class_id" maxlength="20">
-    <input type="text" class="form-control" placeholder="학수번호" name="course_id" maxlength="20">
-    <input type="text" class="form-control" placeholder="교과명" name="class_name" maxlength="20">
-    <div class="col-lg-1" style="padding-top: 5px;">
-        <input type="submit" value="조회" class="btn btn-primary form-control">
-    </div>
-</form>
+
 
 <%--            새로운 수업 개설--%>
 <form action = "openClass" method="post">
+    <h3 style="test-align: center;" style="padding-top: 20px;">강좌 개설</h3>
     <input type="text" class="form-control" placeholder="class_id"  name="class_id" maxlength="20">
     <input type="text" class="form-control" placeholder="course_id" name="course_id" maxlength="20">
     <input type="text" class="form-control" placeholder="lecturer_name" name="lecturer_name" maxlength="20">
@@ -66,9 +59,19 @@
 <%--    </div>--%>
 <%--</from>--%>
 
+<form action="openCloseClass.jsp" accept-charset="UTF-8">
+    <h3 style="test-align: center;" style="padding-top: 20px;">수업 조회</h3>
+    <input type="text" class="form-control" placeholder="수업번호" name="class_id" maxlength="20">
+    <input type="text" class="form-control" placeholder="학수번호" name="course_id" maxlength="20">
+    <input type="text" class="form-control" placeholder="교과명" name="class_name" maxlength="20">
+    <div class="col-lg-1" style="padding-top: 5px;">
+        <input type="submit" value="조회" class="btn btn-primary form-control">
+    </div>
+</form>
+
 <div class="container">
     <div class="row">
-        <h3> 수업조회 </h3>
+        <h3> 수업조회 결과 </h3>
 
         <table class="table" width ="750" style="text-align: center; border: 1px solid #dddddd">
             <thead>
@@ -116,7 +119,7 @@
                 }
 
 
-                UserDAO userDAO = new UserDAO();
+                UserDAO userDAO = new UserDAO(session);
                 ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name); //class_look_up_extended view에서 조회한 정보를 arraylist의 형태로 가져온다
 
                 for(int i = 0; i < list.size(); i++) {

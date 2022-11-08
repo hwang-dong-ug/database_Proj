@@ -28,13 +28,16 @@
             script.println("</script>");
     	}
     
-        UserDAO userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO(session);
 
         int result = userDAO.login(user.getUserID(), user.getUserPassword());
 
         if(result == 1)
         {
-        	session.setAttribute("userID", user.getUserID());
+        	session.setAttribute("userID", user.getUserID());  // session에 유저 아이디 저장
+            session.setAttribute("userPassword",user.getUserPassword()); // 패스워드 저장
+            session.setAttribute("student_id",new UserDAO(session).userIDToStudent_id(user.getUserID()));  // 학번 저장
+
             PrintWriter script = response.getWriter();
             script.println("<script>");
             script.println("location.href = 'main.jsp'");

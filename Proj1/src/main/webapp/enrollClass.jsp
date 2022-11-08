@@ -35,7 +35,7 @@
     </form>
 
     <%
-        int total_credit =new UserDAO().totalCredit();
+        int total_credit =new UserDAO(session).totalCredit();
     %>
     <script>
         document.write("<br>");                     // 학점 표시
@@ -99,7 +99,7 @@
                     }
 
 
-                    UserDAO userDAO = new UserDAO();
+                    UserDAO userDAO = new UserDAO(session);
                     ArrayList<ClassLookUp> list = userDAO.showClass(class_id,course_id,class_name); //class_look_up_extended view에서 조회한 정보를 arraylist의 형태로 가져온다
 
 

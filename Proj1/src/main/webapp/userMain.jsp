@@ -1,4 +1,5 @@
-<%--
+<%@ page import="user.UserDAO" %>
+<%@ page import="user.User" %><%--
   Created by IntelliJ IDEA.
   User: brendan
   Date: 2022/10/23
@@ -14,6 +15,7 @@
     <title>유저 메인페이지</title>
 </head>
 <body>
+
 <div class="container">
     <div class="col-lg-4">
         <h3 style="test-align: center;">유저 메인페이지</h3>
@@ -31,8 +33,12 @@
             <button type="button" class="btn btn-primary form-control" onClick="location.href='changeEnroll.jsp'">신청한 강의 변겅</button>
         </div>
 
+        <%
+            String student_id = (String) session.getAttribute("student_id");
+        %>
+
         <div class="jumbotron" style="padding-top: 20px;">
-            <button type="button" class="btn btn-primary form-control" onClick="location.href='schedule.jsp'">시간표</button>
+            <button type="button" class="btn btn-primary form-control" onClick="location.href='timetable.jsp?student_id=<%=student_id%>' ">시간표</button>
         </div>
 
 
