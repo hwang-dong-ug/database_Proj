@@ -31,6 +31,18 @@ public class OpenClass extends HttpServlet{
         String end = request.getParameter("end");
         String day = request.getParameter("day");
 
+        if(class_id.equals("") ||
+                course_id.equals("")||
+        lecturer_name.equals("")||
+        person_max.equals("")||
+        room_id.equals("")||
+        day.equals("none")){
+            UserDAO.alertAndGo(response,"모든칸을 채워주세요","openCloseClass.jsp");
+            return;
+        }
+
+
+
         OpenClassContainer openClassContainer =new OpenClassContainer(
                 class_id,
                 course_id,
@@ -50,9 +62,16 @@ public class OpenClass extends HttpServlet{
             UserDAO.alertAndGo(response,"개설 실패 (class table 오류)","openCloseClass.jsp");
 
         } else if (result== -3) {
-            UserDAO.alertAndGo(response,"개설 성공 (time table 오류)","openCloseClass.jsp");
+            UserDAO.alertAndGo(response,"개설 실패 (time table 오류)","openCloseClass.jsp");
 
-        }else {
+        } else if (result== -4) {
+            UserDAO.alertAndGo(response,"개설 실패 (course_id 오류!!! 새로운 class_id는 가능하나 course는 기존에 있는 course_id를 입력하십시오.)","openCloseClass.jsp");
+        } else if (result== -5) {
+            UserDAO.alertAndGo(response,"개설 실패 (존재하지 않는 교수 이름)","openCloseClass.jsp");
+        } else if (result== -6) {
+            UserDAO.alertAndGo(response,"개설 실패 (존재하지 않는 room_id)","openCloseClass.jsp");
+        }
+        else {
             UserDAO.alertAndGo(response,"개설 성공","openCloseClass.jsp");
         }
     }

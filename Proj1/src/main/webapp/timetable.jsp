@@ -30,9 +30,14 @@
 <%
     String student_id = request.getParameter("student_id");
     ArrayList<TimeTable> timeTables = new UserDAO(session).createTimeTable(student_id);
+    String userName=null,userID=null;
+    if(timeTables.size() !=0){
+        userName = timeTables.get(0).getUserName();
+        userID = timeTables.get(0).getUserID();
+    }else{
+        UserDAO.alertAndGo(response,"신청한 과목이 없습니다",null);
+    }
 
-    String userName = timeTables.get(0).getUserName();
-    String userID = timeTables.get(0).getUserID();
 
 %>
 <h1>시간표 </h1>

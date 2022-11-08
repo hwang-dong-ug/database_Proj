@@ -21,8 +21,12 @@ public class AllowClass extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String class_id = request.getParameter("class_id");
         String student_id = request.getParameter("student_id");
-        new UserDAO(request.getSession()).allowClass(class_id,student_id);
+        int result = new UserDAO(request.getSession()).allowClass(class_id, student_id);
 
-        UserDAO.alertAndGo(response,"수강허용 완료", null);
+        if (result == 0) UserDAO.alertAndGo(response, "수강허용 완료", null);
+        else if (result ==-1) {
+            UserDAO.alertAndGo(response, "수강 허용 실패 잘못된 student_id ", null);
+        }
     }
+
 }

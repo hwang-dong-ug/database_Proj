@@ -487,8 +487,11 @@ public class UserDAO {
     }
 
     //수강 허용
-    public void allowClass(String class_id, String student_id){
+    public int allowClass(String class_id, String student_id){
         String userID = student_idToUserID(student_id);
+        if(userID==null){
+            return -1;
+        }
         try {
             String SQL ="insert into enroll values(?,?)";
             pstmt = conn.prepareStatement(SQL);
@@ -498,6 +501,8 @@ public class UserDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return 0;
     }
 
     //강의 증원
@@ -553,6 +558,7 @@ public class UserDAO {
 
     //시간표 생성
     public ArrayList<TimeTable> createTimeTable(String student_id){
+
         ArrayList<TimeTable> timeTables =new ArrayList<>();
         try {
             String SQL = "select * from student_id_time where student_id = ?";
@@ -606,7 +612,12 @@ public class UserDAO {
     }
 
     //새로운 강의 개설  //여기서부터!!!!!!!!!!!!!
-    public int openClass(OpenClassContainer openClassContainer){ // status == -1 이면 room occupancy 보다 강좌 max_person이 큰 경우
+    public int openClass(OpenClassContainer openClassContainer){
+        // status == -1 이면 room occupancy 보다 강좌 max_person이 큰 경우
+        // status == -2 이면 class table오류
+        // status == -3 이면 time table 오류
+        // status == -4 이면 빈칸
+
         String class_id = openClassContainer.getClass_id();
         String course_id = openClassContainer.getCourse_id();
         String lecturer_name= openClassContainer.getLecturer_name();
@@ -648,6 +659,11 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
 
+        if(class_no == null || name == null){
+            status=-4;
+            return status;
+        }
+
         // part 2.
         String lecturer_id =null;
         try {
@@ -662,6 +678,11 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+
+        if(lecturer_id == null){
+            status=-5;
+            return status;
         }
 
 
@@ -682,7 +703,8 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            status=-6;
+            return status;
         }
 
         // part 4.

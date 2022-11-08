@@ -32,9 +32,13 @@
 <%
     String student_id = request.getParameter("student_id");
     ArrayList<Credit> credits = new UserDAO(session).lookUpCredit(student_id);
-
-    String userName = credits.get(0).getUserName();
-    String userID = credits.get(0).getUserID();
+    String userName=null, userID=null;
+    if(credits.size() != 0){
+        userName = credits.get(0).getUserName();
+        userID = credits.get(0).getUserID();
+    }else{
+        UserDAO.alertAndGo(response,"지난학기 성적 데이터가 존재하지 않는 학생입니다",null);
+    }
 
 %>
 <h1>성적 </h1>
